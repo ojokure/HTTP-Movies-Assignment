@@ -1,8 +1,7 @@
 import React from "react";
 import axios from "axios";
 import MovieCard from "./MovieCard";
-import UpdateMovie from "../UpdateMovie";
-import { Route, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 export default class Movie extends React.Component {
   constructor(props) {
@@ -34,6 +33,7 @@ export default class Movie extends React.Component {
     axios
         .delete(`http://localhost:5000/api/movies/${id}`)
         .then(res => {
+          prompt('Are you sure you want to delete this movie ?')
             this.props.setMovies(this.props.movies.filter(movie => movie.id !== id))
             this.props.history.push('/')
         })
