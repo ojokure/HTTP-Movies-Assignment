@@ -6,6 +6,7 @@ import { Route, NavLink } from "react-router-dom";
 
 export default class Movie extends React.Component {
   constructor(props) {
+    console.log(props)
     super(props);
     this.state = {
       movie: null
@@ -30,6 +31,15 @@ export default class Movie extends React.Component {
   };
 
   
+  deleteMovie = id => e => {
+    axios
+        .delete(`http://localhost:5000/api/movies/${id}`)
+        .then(res => {
+            this.props.setMovies(this.props.movies.filter(movie => movie.id !== id))
+            this.props.history.push('/')
+        })
+        .catch(err => console.log(err.response));
+}
 
 
 
@@ -56,7 +66,7 @@ export default class Movie extends React.Component {
             <button> Edit </button>
           </NavLink>
           <hr />
-          <button onClick={this.props.deleteMovie(this.state.movie.id)}> X </button>
+          <button onClick={this.deleteMovie(this.state.movie.id)}> x </button>
           <hr />
         </div>
       </div>
