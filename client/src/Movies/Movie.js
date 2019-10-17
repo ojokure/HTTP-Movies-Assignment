@@ -6,7 +6,6 @@ import { Route, NavLink } from "react-router-dom";
 
 export default class Movie extends React.Component {
   constructor(props) {
-    console.log(props)
     super(props);
     this.state = {
       movie: null
@@ -63,10 +62,10 @@ export default class Movie extends React.Component {
           </div>
 
           <NavLink to={`/update-movie/${this.state.movie.id}`}>
-            <button> Edit </button>
+            <button> Edit Movie </button>
           </NavLink>
           <hr />
-          <button onClick={this.deleteMovie(this.state.movie.id)}> x </button>
+          <button onClick={this.deleteMovie(this.state.movie.id)}> Delete Movie </button>
           <hr />
         </div>
       </div>
