@@ -14,10 +14,14 @@ const App = () => {
     setSavedList([...savedList, movie]);
   };
 
-  axios
-    .get("http://localhost:5000/api/movies")
-    .then(res => setMovies(res.data ))
-    .catch(err => console.log(err.response));
+  const deleteMovie = id => e => {
+    axios
+        .delete(`http://localhost:5000/api/movies/${id}`)
+        .then(res => {
+            setMovies(movies.filter(movie => movie.id !== id))
+        })
+        .catch(err => console.log(err.response));
+}
 
   return (
     <>
@@ -32,13 +36,13 @@ const App = () => {
       <Route
         path="/movies/:id"
         render={props => {
-          return <Movie {...props} addToSavedList={addToSavedList} />;
+          return <Movie {...props} addToSavedList={addToSavedList} deleteMovie={deleteMovie}/>;
         }}
       />
       <Route
         path="/update-movie/:id"
         render={props => {
-          return <UpdateMovie {...props} movies={movies} />;
+          return <UpdateMovie {...props} movies={movies} setMovies={setMovies}/>;
         }}
       />
     </>

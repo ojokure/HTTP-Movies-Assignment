@@ -29,6 +29,10 @@ export default class Movie extends React.Component {
       .catch(err => console.log(err.response));
   };
 
+  
+
+
+
   saveMovie = () => {
     const addToSavedList = this.props.addToSavedList;
     addToSavedList(this.state.movie);
@@ -51,6 +55,9 @@ export default class Movie extends React.Component {
           <NavLink to={`/update-movie/${this.state.movie.id}`}>
             <button> Edit </button>
           </NavLink>
+          <hr />
+          <button onClick={this.props.deleteMovie(this.state.movie.id)}> X </button>
+          <hr />
         </div>
       </div>
     );
