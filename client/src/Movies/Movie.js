@@ -1,6 +1,8 @@
 import React from "react";
 import axios from "axios";
 import MovieCard from "./MovieCard";
+import { NavLink } from "react-router-dom";
+
 export default class Movie extends React.Component {
   constructor(props) {
     super(props);
@@ -26,6 +28,23 @@ export default class Movie extends React.Component {
       .catch(err => console.log(err.response));
   };
 
+  deleteMovie = id => e => {
+    axios
+      .delete(`http://localhost:5000/api/movies/${id}`)
+      .then(res => {
+        this.props.setMovies(
+          this.props.movies.filter(movie => movie.id !== id)
+        );
+        window.confirm("Are you sure you want to delete this movie ?");
+        if (window.confirm === false) {
+          this.props.history.push("/movies/" + id);
+        } else {
+          this.props.history.push("/");
+        }
+      })
+      .catch(err => console.log(err.response));
+  };
+
   saveMovie = () => {
     const addToSavedList = this.props.addToSavedList;
     addToSavedList(this.state.movie);
@@ -38,9 +57,22 @@ export default class Movie extends React.Component {
 
     return (
       <div className="save-wrapper">
-        <MovieCard movie={this.state.movie} />
-        <div className="save-button" onClick={this.saveMovie}>
-          Save
+        <div>
+          <MovieCard movie={this.state.movie} />
+
+          <div className="save-button" onClick={this.saveMovie}>
+            Save
+          </div>
+
+          <NavLink to={`/update-movie/${this.state.movie.id}`}>
+            <button> Edit Movie </button>
+          </NavLink>
+          <hr />
+          <button onClick={this.deleteMovie(this.state.movie.id)}>
+            {" "}
+            Delete Movie{" "}
+          </button>
+          <hr />
         </div>
       </div>
     );
